@@ -49,48 +49,6 @@ const Header = ({
     getLocalUser();
   }, []);
 
-  function setBrandFilterClick(val) {
-    setFilterBy({ brand: val, color: header.filterBy.color });
-    setPageToLoad(0);
-    loadProducts(
-      {
-        page: { index: 0, size: config.pageSize },
-        filter: { brand: val, color: header.filterBy.color },
-        sort: { ...header.sortBy },
-      },
-      false,
-    );
-    window.scrollTo(0, 0);
-  }
-
-  function setColorFilterClick(val) {
-    setFilterBy({ color: val, brand: header.filterBy.brand });
-    setPageToLoad(0);
-    loadProducts(
-      {
-        page: { index: 0, size: config.pageSize },
-        filter: { color: val, brand: header.filterBy.brand },
-        sort: { ...header.sortBy },
-      },
-      false,
-    );
-    window.scrollTo(0, 0);
-  }
-
-  function setSortClick(key, direction) {
-    setSortBy({ key, direction });
-    setPageToLoad(0);
-    loadProducts(
-      {
-        page: { index: 0, size: config.pageSize },
-        filter: { ...header.filterBy },
-        sort: { key, direction },
-      },
-      false,
-    );
-    window.scrollTo(0, 0);
-  }
-
   function calcCartLength() {
     const sum = cart.cartProducts
       .map(p => p.quantity)
@@ -114,109 +72,24 @@ const Header = ({
 
   return (
     <Navbar
+
       collapseOnSelect
       expand="lg"
-      bg="primary"
-      variant="dark"
+      className="navbar container"
       fixed="top"
     >
       <Container>
         <LinkContainer to="/home">
-          <Navbar.Brand>Lure shop</Navbar.Brand>
+          <span className="header-name font-weight-bold">Beauty4ever</span>
         </LinkContainer>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto" activeKey={pathname}>
+        <Navbar.Collapse className="nav" id="responsive-navbar-nav">
+          <Nav className="mr-auto nav-color" activeKey={pathname}>
             <LinkContainer to="/home">
-              <Nav.Link>
-                <i className="fa fa-home"></i> Home
+              <Nav.Link className="nav-color"> Beranda
               </Nav.Link>
             </LinkContainer>
             <LinkContainer to="/products">
-              <Nav.Link>
-                <i className="fa fa-product-hunt"></i> Products
-              </Nav.Link>
-            </LinkContainer>
-            <NavDropdown
-              disabled={pathname !== '/products'}
-              title="Sort"
-              id="collasible-nav-dropdown"
-            >
-              {[
-                { label: 'price (asc)', key: 'price', direction: 'asc' },
-                { label: 'price (desc)', key: 'price', direction: 'desc' },
-                { label: 'weight (asc)', key: 'weight', direction: 'asc' },
-                { label: 'weight (desc)', key: 'weight', direction: 'desc' },
-                { label: 'size (asc)', key: 'size', direction: 'asc' },
-                { label: 'size (desc)', key: 'size', direction: 'desc' },
-                { label: 'none', key: 'none', direction: 'asc' },
-              ].map((item, i) => (
-                <NavDropdown.Item
-                  active={
-                    header.sortBy.key === item.key &&
-                    header.sortBy.direction === item.direction
-                  }
-                  key={i}
-                  onClick={() => setSortClick(item.key, item.direction)}
-                >
-                  {item.label}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
-            <NavDropdown
-              disabled={pathname !== '/products'}
-              title="Brand"
-              id="collasible-nav-dropdown"
-            >
-              {[
-                { label: 'Rapala', filter: 'rapala' },
-                { label: 'Heddon', filter: 'heddon' },
-                { label: 'Cotton Cordell', filter: 'cottoncordel' },
-                { label: 'Rebel', filter: 'rebel' },
-                { label: 'Mepps', filter: 'mepps' },
-                { label: 'any', filter: 'none' },
-              ].map((item, i) => (
-                <NavDropdown.Item
-                  active={header.filterBy.brand === item.filter}
-                  key={i}
-                  onClick={() => setBrandFilterClick(item.filter)}
-                >
-                  {item.label}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
-            <NavDropdown
-              disabled={pathname !== '/products'}
-              title="Color"
-              id="collasible-nav-dropdown"
-            >
-              {[
-                { label: 'red', filter: 'red' },
-                { label: 'blue', filter: 'blue' },
-                { label: 'green', filter: 'green' },
-                { label: 'yellow', filter: 'yellow' },
-                { label: 'brown', filter: 'brown' },
-                { label: 'black', filter: 'black' },
-                { label: 'white', filter: 'white' },
-                { label: 'any', filter: 'none' },
-              ].map((item, i) => (
-                <NavDropdown.Item
-                  active={header.filterBy.color === item.filter}
-                  key={i}
-                  onClick={() => setColorFilterClick(item.filter)}
-                >
-                  {item.label}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
-            <LinkContainer to="/liked">
-              <Nav.Link>
-                <i className="fa fa-heart"></i> Liked{' '}
-                {liked.likedProducts.length > 0 && (
-                  <Badge pill variant="light">
-                    {liked.likedProducts.length}
-                  </Badge>
-                )}
+              <Nav.Link className="nav-color">Produk
               </Nav.Link>
             </LinkContainer>
           </Nav>

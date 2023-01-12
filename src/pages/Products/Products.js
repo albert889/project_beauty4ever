@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Redirect } from 'react-router-dom';
@@ -22,6 +22,7 @@ const Products = ({
   header,
   setPageToLoad,
 }) => {
+
   // did mount
   useEffect(() => {
     loadProducts(

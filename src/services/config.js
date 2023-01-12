@@ -1,5 +1,5 @@
 export const config = {
-  baseURL: 'https://nemanjam.github.io/eshop-page',
+  baseURL: 'https://makeup.p.rapidapi.com/products.json',
   products: '/products',
   pageSize: 10,
   advertIndex: 5,

@@ -17,14 +17,10 @@ import {
 
 const Product = ({
   product,
-  likeProduct,
-  unlikeProduct,
   addProductToCart,
   removeProductFromCart,
-  liked,
   cart,
 }) => {
-  const { id, name, price, image, shortDescription, description } = product;
   const [isLoading, setIsLoading] = useState(true);
   const counter = useRef(0);
 
@@ -33,21 +29,6 @@ const Product = ({
     if (counter.current >= 1) {
       setIsLoading(false);
     }
-  }
-
-  function toggleLike() {
-    if (!isLiked()) {
-      likeProduct(product);
-    } else {
-      unlikeProduct(product);
-    }
-  }
-
-  function isLiked() {
-    const isLiked =
-      liked.likedProducts.length > 0 &&
-      liked.likedProducts.find(p => p.id === product.id);
-    return isLiked;
   }
 
   function toggleAddProduct() {
@@ -83,52 +64,34 @@ const Product = ({
       </Col>
 
       <Col
-        xs={12}
-        sm={6}
-        xl={3}
-        lg={4}
+        lg={3}
         className="mb-3"
         style={{ display: isLoading ? 'none' : 'block' }}
       >
-        <Card className="product-card">
-          <i
-            onClick={toggleLike}
-            className={
-              isLiked()
-                ? 'fa fa-heart text-success like'
-                : 'fa fa-heart text-danger like'
-            }
-          ></i>
-          <Link to={`/product-details/${id}`}>
+        <Card className="product-card h-300 p-3">
+          <Link to={`/product-details/${product.id}`}>
             <Card.Img
               className="product-img"
               variant="top"
-              src={require(`../../static/products/${image}`)}
-              alt="Vans"
+              src={product.image_link}
+              alt={product.name}
               onLoad={imageLoaded}
             />
           </Link>
-          <Card.Body>
-            <h4 className="card-title">{name}</h4>
-            <h6 className="card-subtitle mb-2 text-muted">
-              Description: {shortDescription}
-            </h6>
-            <Card.Text>{description}</Card.Text>
-
-            <div className="buy d-flex justify-content-between align-items-center">
-              <div className="price text-success">
-                <h5 className="mt-4">${price.toFixed(2)}</h5>
-              </div>
-              <Button
-                variant={!isAdded() ? 'outline-primary' : 'danger'}
+          <Card.Body className="p-0">
+          <p className="card-title name">{product.name}</p>
+          <div className="d-flex align-items-center justify-content-between">
+            <span className="price">Rp. {(Number(product.price) * 15000).toLocaleString()}</span>
+            <Button
                 onClick={toggleAddProduct}
-                className="add-to-cart mt-3"
-              >
-                <i className="fa fa-shopping-cart"></i>{' '}
-                {!isAdded() ? 'Add to Cart' : 'Added to Cart'}
-              </Button>
-            </div>
-          </Card.Body>
+                className="button-cart mt-3"
+            >
+              <i className="fa fa-shopping-cart"></i>
+            </Button>
+          </div>
+
+        </Card.Body>
+
         </Card>
       </Col>
     </>

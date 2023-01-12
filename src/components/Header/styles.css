@@ -1,8 +1,27 @@
+.navbar {
+  background-color: #F4E7E7;
+}
+
+.nav {
+  margin-left: 20px;
+}
+
+.nav-color {
+  color: #798a93 !important;
+  font-weight: 700;
+}
+
+.header-name{
+  color: #FF6182 !important;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
 .user-img {
   width: 100%;
   max-width: 4rem;
 }
 
 .img-container {
-  padding: 0px;
+  padding: 0;
 }
