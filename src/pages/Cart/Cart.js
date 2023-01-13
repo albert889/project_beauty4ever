@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
 
 import Row from 'react-bootstrap/Row';
 
@@ -43,13 +44,12 @@ const Cart = ({
                   <div className="row">
                     <div className="col-12 col-sm-12 col-md-2 text-center">
                       <Link to={`/product-details/${product.id}`}>
-                        <img
-                          className="img-responsive cart-img-obj-fit"
-                          src={require(`../../static/products/${product.image}`)}
-                          alt="prewiew"
-                          width="120"
-                          height="80"
-                        />
+                        <Card.Img
+                        className="product-img"
+                        variant="top"
+                        src={product.image_link}
+                        alt={product.name}
+                      />
                       </Link>
                     </div>
                     <div className="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
@@ -62,7 +62,7 @@ const Cart = ({
                         style={{ paddingTop: 5 }}
                       >
                         <h5>
-                          <strong>${product.price.toFixed(2)}</strong>
+                          <strong>Rp. {(Number(product.price) * 15000).toLocaleString()}</strong>
                         </h5>
                       </div>
                       <div className="col-4 col-sm-4 col-md-4">
@@ -106,24 +106,6 @@ const Cart = ({
               </div>
             </div>
             <div className="card-footer">
-              <div className="coupon col-md-5 col-sm-5 no-padding-left pull-left">
-                <div className="row">
-                  <div className="col-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="cupone code"
-                    />
-                  </div>
-                  <div className="col-6">
-                    <input
-                      type="submit"
-                      className="btn btn-default"
-                      value="Use cupone"
-                    />
-                  </div>
-                </div>
-              </div>
               <div className="pull-right" style={{ margin: 10 }}>
                 <a href="" className="btn btn-primary pull-right">
                   Checkout
@@ -131,11 +113,11 @@ const Cart = ({
                 <div className="pull-right" style={{ margin: 5 }}>
                   Total price:{' '}
                   <b>
-                    $
+                    Rp.
                     {cartProducts
-                      .map(p => p.product.price * p.quantity)
+                      .map(p => (Number(p.product.price) * 15000) * p.quantity)
                       .reduce((a, b) => a + b, 0)
-                      .toFixed(2)}
+                      .toLocaleString()}
                   </b>
                 </div>
               </div>
