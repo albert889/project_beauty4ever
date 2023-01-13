@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import Container from 'react-bootstrap/Container';
+import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -23,6 +24,7 @@ import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import ProductDetails from './pages/ProductDetails';
+import Checkout from './pages/Checkout';
 import Error from './pages/Error';
 import Header from './components/Header';
 import MyToast from './components/MyToast';
@@ -62,6 +64,7 @@ const Root = () => {
             />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
+            <Route path="/checkout" component={Checkout} />
             <PrivateRoute path="/profile" component={Profile} />
             <Route path="/error" component={Error} />
             <Route exact path="/">

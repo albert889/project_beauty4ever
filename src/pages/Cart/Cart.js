@@ -13,12 +13,20 @@ import {
 
 import './styles.css';
 
+
 const Cart = ({
   cart: { cartProducts },
   addProductToCart,
   removeProductFromCart,
   removeProductsFromCart,
+
 }) => {
+
+
+  useEffect(() => {
+    window.localStorage.setItem("CART", JSON.stringify(cartProducts))
+  }, [cartProducts])
+
   return (
     <Fragment>
       {cartProducts.length === 0 ? (
@@ -45,11 +53,11 @@ const Cart = ({
                     <div className="col-12 col-sm-12 col-md-2 text-center">
                       <Link to={`/product-details/${product.id}`}>
                         <Card.Img
-                        className="product-img"
-                        variant="top"
-                        src={product.image_link}
-                        alt={product.name}
-                      />
+                          className="product-img"
+                          variant="top"
+                          src={product.image_link}
+                          alt={product.name}
+                        />
                       </Link>
                     </div>
                     <div className="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
@@ -107,7 +115,7 @@ const Cart = ({
             </div>
             <div className="card-footer">
               <div className="pull-right" style={{ margin: 10 }}>
-              <Link to={'/liked'} className="btn btn-primary pull-right">
+                <Link to={'/checkout'} className="btn btn-primary pull-right" >
                   Checkout
                 </Link>
                 <div className="pull-right" style={{ margin: 5 }}>

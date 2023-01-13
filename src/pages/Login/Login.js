@@ -5,7 +5,7 @@ import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import * as BForm from 'react-bootstrap/Form';
+// import * as Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -181,10 +181,10 @@ const Login = ({
                 } = props;
                 return (
                   <>
-                    <BForm noValidate onSubmit={handleSubmit}>
+                    <Form noValidate onSubmit={handleSubmit}>
                       {isRegister && (
-                        <BForm.Group controlId="validationFormik1">
-                          <BForm.Control
+                        <Form.Group controlId="validationFormik1">
+                          <Form.Control
                             name="name"
                             type="input"
                             placeholder="Name"
@@ -194,16 +194,16 @@ const Login = ({
                             isInvalid={touched.name && !!errors.name}
                             isValid={touched.name && !errors.name}
                           />
-                          <BForm.Control.Feedback>
+                          <Form.Control.Feedback>
                             Looks good!
-                          </BForm.Control.Feedback>
-                          <BForm.Control.Feedback type="invalid">
+                          </Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">
                             {errors.name}
-                          </BForm.Control.Feedback>
-                        </BForm.Group>
+                          </Form.Control.Feedback>
+                        </Form.Group>
                       )}
-                      <BForm.Group controlId="validationFormik2">
-                        <BForm.Control
+                      <Form.Group controlId="validationFormik2">
+                        <Form.Control
                           name="email"
                           type="email"
                           placeholder="Email"
@@ -213,15 +213,15 @@ const Login = ({
                           isInvalid={touched.email && !!errors.email}
                           isValid={touched.email && !errors.email}
                         />
-                        <BForm.Control.Feedback>
+                        <Form.Control.Feedback>
                           Looks good!
-                        </BForm.Control.Feedback>
-                        <BForm.Control.Feedback type="invalid">
+                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
                           {errors.email}
-                        </BForm.Control.Feedback>
-                      </BForm.Group>
-                      <BForm.Group controlId="validationFormik3">
-                        <BForm.Control
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group controlId="validationFormik3">
+                        <Form.Control
                           name="password"
                           type="password"
                           placeholder="Password"
@@ -231,16 +231,16 @@ const Login = ({
                           isInvalid={touched.password && !!errors.password}
                           isValid={touched.password && !errors.password}
                         />
-                        <BForm.Control.Feedback>
+                        <Form.Control.Feedback>
                           Looks good!
-                        </BForm.Control.Feedback>
-                        <BForm.Control.Feedback type="invalid">
+                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
                           {errors.password}
-                        </BForm.Control.Feedback>
-                      </BForm.Group>
+                        </Form.Control.Feedback>
+                      </Form.Group>
                       {isRegister && (
-                        <BForm.Group controlId="validationFormik4">
-                          <BForm.Control
+                        <Form.Group controlId="validationFormik4">
+                          <Form.Control
                             name="repeatPassword"
                             type="password"
                             placeholder="Repeat Password"
@@ -254,21 +254,21 @@ const Login = ({
                               touched.repeatPassword && !errors.repeatPassword
                             }
                           />
-                          <BForm.Control.Feedback>
+                          <Form.Control.Feedback>
                             Looks good!
-                          </BForm.Control.Feedback>
-                          <BForm.Control.Feedback type="invalid">
+                          </Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">
                             {errors.repeatPassword}
-                          </BForm.Control.Feedback>
-                        </BForm.Group>
+                          </Form.Control.Feedback>
+                        </Form.Group>
                       )}
-                      <BForm.Row>
-                        <BForm.Group
+                      <Form.Row>
+                        <Form.Group
                           as={Col}
                           md="6"
                           controlId="validationFormik3"
                         >
-                          <BForm.Group>
+                          <Form.Group>
                             <Button
                               type="submit"
                               className="btn-block"
@@ -280,21 +280,21 @@ const Login = ({
                                 ? 'Register'
                                 : 'Login'}
                             </Button>
-                          </BForm.Group>
-                        </BForm.Group>
+                          </Form.Group>
+                        </Form.Group>
                         <div className="col-md-6 text-right">
                           <a className="small" href="#">
                             Forgot password?
                           </a>
                         </div>
-                      </BForm.Row>
-                      <BForm.Row>
+                      </Form.Row>
+                      <Form.Row>
                         <div className="col-12 text-center small">
                           <p>Test email: default@gmail.com</p>
                           <p>Test password: password</p>
                         </div>
-                      </BForm.Row>
-                    </BForm>
+                      </Form.Row>
+                    </Form>
                     {/* <DisplayFormikState {...props} /> */}
                   </>
                 );

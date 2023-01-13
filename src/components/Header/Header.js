@@ -38,6 +38,7 @@ const Header = ({
   liked,
   cart,
   auth,
+  checkout,
   getGoogleUser,
   logOutGoogleUser,
   getLocalUser,
@@ -123,6 +124,7 @@ export default connect(
     header: state.headerReducer,
     liked: state.likedReducer,
     cart: state.cartReducer,
+    checkout: state.checkoutReducer,
     auth: state.authReducer,
   }),
   {
