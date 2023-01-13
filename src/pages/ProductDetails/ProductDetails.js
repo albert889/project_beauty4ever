@@ -91,31 +91,7 @@ const ProductDetails = ({
             <div>
               <img
                 className="main-img d-md-none"
-                src={require(`../../static/products/${product.image}`)}
-              />
-              <ReactImageMagnify
-                {...{
-                  smallImage: {
-                    alt: product.shortDescription,
-                    isFluidWidth: true,
-                    src: require(`../../static/products/${product.image}`),
-                  },
-                  largeImage: {
-                    src: require(`../../static/products/${product.image}`),
-                    width: 1200,
-                    height: 1200,
-                  },
-                  enlargedImageContainerStyle: {
-                    zIndex: 9,
-                    backgroundColor: 'white',
-                    objectFit: 'cover',
-                  },
-                  enlargedImageContainerDimensions: {
-                    width: '150%',
-                    height: '120%',
-                  },
-                  className: 'd-none d-md-block ',
-                }}
+                src={product.image_link}
               />
             </div>
           </aside>
@@ -125,8 +101,8 @@ const ProductDetails = ({
 
               <div className="mb-3">
                 <var className="price h3 text-success">
-                  <span className="currency">US $</span>
-                  <span className="num">{product.price.toFixed(2)}</span>
+                  <span className="currency">Rp.</span>
+                  <span className="num">{(Number(product.price) * 15000).toLocaleString()}</span>
                 </var>
               </div>
               <dl>
@@ -136,35 +112,12 @@ const ProductDetails = ({
                 </dd>
               </dl>
               <dl className="row">
-                <dt className="col-sm-3">Model#</dt>
-                <dd className="col-sm-9">{product.modelNum}</dd>
 
                 <dt className="col-sm-3">Color</dt>
                 <dd className="col-sm-9">{product.color}</dd>
 
-                <dt className="col-sm-3">Delivery</dt>
-                <dd className="col-sm-9">{product.delivery}</dd>
               </dl>
 
-              <hr />
-              <div className="row">
-                <div className="col-sm-5">
-                  <dl className="dlist-inline">
-                    <dt>Weight: </dt>
-                    <dd className="pl-2">
-                      <span className="form-check-label">{`${product.weight} g`}</span>
-                    </dd>
-                  </dl>
-                </div>
-                <div className="col-sm-7">
-                  <dl className="dlist-inline">
-                    <dt>Size: </dt>
-                    <dd>
-                      <span className="form-check-label">{`${product.size} cm`}</span>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
               <hr />
               <button
                 onClick={toggleLike}
