@@ -98,7 +98,7 @@ const Cart = ({
               ))}
 
               <div className="pull-right">
-                <Link to={'/products'}>
+                <Link to={'/home'}>
                   <button className="btn btn-outline-primary pull-right">
                     Continue shopping
                   </button>
@@ -107,10 +107,8 @@ const Cart = ({
             </div>
             <div className="card-footer">
               <div className="pull-right" style={{ margin: 10 }}>
-              <Link to={'/products'} className="btn btn-primary pull-right">
-
+              <Link to={'/liked'} className="btn btn-primary pull-right">
                   Checkout
-      
                 </Link>
                 <div className="pull-right" style={{ margin: 5 }}>
                   Total price:{' '}

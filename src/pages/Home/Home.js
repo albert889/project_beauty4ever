@@ -46,7 +46,7 @@ const Home = () => {
               <Carousel.Item>
                 <img
                   className="img-obj-fit"
-                  src={require(`../../images/banner-1.jpeg`)}
+                  src={require(`../../images/banner_2.png`)}
                   alt="Second slide"
                   style={{ width:"inherit" }}
                 />
@@ -54,7 +54,7 @@ const Home = () => {
               <Carousel.Item>
                 <img
                   className="img-obj-fit"
-                  src={require(`../../images/banner-1.jpeg`)}
+                  src={require(`../../images/banner_3.png`)}
                   alt="Third slide"
                   style={{ width:"inherit" }}
                 />
