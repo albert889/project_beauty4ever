@@ -17,8 +17,11 @@ import {
 
 const Product = ({
   product,
+  likeProduct,
+  unlikeProduct,
   addProductToCart,
   removeProductFromCart,
+  liked,
   cart,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +50,21 @@ const Product = ({
     return isAdded;
   }
 
+  function toggleLike() {
+    if (!isLiked()) {
+      likeProduct(product);
+    } else {
+      unlikeProduct(product);
+    }
+  }
+
+  function isLiked() {
+    const isLiked =
+      liked.likedProducts.length > 0 &&
+      liked.likedProducts.find(p => p.id === product.id);
+    return isLiked;
+  }
+  
   return (
     <>
       <Col
@@ -69,6 +87,14 @@ const Product = ({
         style={{ display: isLoading ? 'none' : 'block' }}
       >
         <Card className="product-card h-300 p-3">
+        <i
+            onClick={toggleLike}
+            className={
+              isLiked()
+                ? 'fa fa-heart text-danger like'
+                : 'fa fa-heart text-disable like'
+            }
+          ></i>
           <Link to={`/product-details/${product.id}`}>
             <Card.Img
               className="product-img"

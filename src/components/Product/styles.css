@@ -1,7 +1,13 @@
 .h-300 {
   min-height: 300px;
 }
-
+.like {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+  cursor: pointer;
+}
 .product-img {
   object-fit: cover;
   transition: all 0.5s ease 0s;
@@ -23,6 +29,7 @@
 }
 
 .name {
+  margin-top: 10px;
   -webkit-box-orient: vertical;
   display: -webkit-box;
   font-weight: 700;
