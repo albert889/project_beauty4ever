@@ -35,7 +35,7 @@ export const loadProduct = (id, callback) => async (dispatch, getState) => {
 
   errorHandler(
     async (id, callback) => {
-      const response = await axios.get(`/product/${id}`);
+      const response = await axios.get(`https://makeup-api.herokuapp.com/api/v1/products/${id}.json`);
       const product = response.data;
 
       //const product = await getProductPromise(id);
