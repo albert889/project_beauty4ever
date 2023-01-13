@@ -114,7 +114,7 @@ const ProductDetails = ({
               <dl className="row">
 
                 <dt className="col-sm-3">Color</dt>
-                <dd className="col-sm-9">{product.color}</dd>
+                <dd className="col-sm-9">{product.product_colors.map(item => <div style={{color: item.hex_value}} key={item.hex_value}>{item.colour_name}</div>)}</dd>
 
               </dl>
 
