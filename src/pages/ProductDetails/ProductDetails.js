@@ -90,7 +90,7 @@ const ProductDetails = ({
           <aside className="col-sm-5 border-right">
             <div>
               <img
-                className="main-img d-md-none"
+                className="main-img"
                 src={product.image_link}
               />
             </div>
