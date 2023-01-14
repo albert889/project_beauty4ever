@@ -76,7 +76,6 @@ const Header = ({
     <Navbar
 
       collapseOnSelect
-      expand="lg"
       className="navbar container"
       fixed="top"
     >
@@ -84,8 +83,9 @@ const Header = ({
         <LinkContainer to="/home">
           {/* <span className="header-name font-weight-bold">Beauty4ever</span> */}
           <img src={require(`../../images/img_logo.svg`)} className="logo-img"/>
-          
+
         </LinkContainer>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse className="nav" id="responsive-navbar-nav">
           <Nav className="mr-auto nav-color" activeKey={pathname}>
             <LinkContainer to="/home">
