@@ -1,35 +1,28 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 
 import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form'
+import Form from 'react-bootstrap/Form';
 import { Col, Button, Modal } from 'react-bootstrap';
 import CountrySelect from 'react-bootstrap-country-select';
 import './styles.css';
-import { createHashHistory } from "history";
-
-
+import { createHashHistory } from 'history';
 
 const Checkout = () => {
-
   const history = createHashHistory();
 
   const removeItem = () => {
-    localStorage.removeItem("CART")
-    history.push("/home");
-    window.location.reload(true)
-
-  }
-
+    localStorage.removeItem('CART');
+    history.push('/home');
+    window.location.reload(true);
+  };
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-
 
   const [value, setValue] = useState(null);
   return (
@@ -43,16 +36,9 @@ const Checkout = () => {
           <Button variant="primary" onClick={removeItem}>
             Back to home
           </Button>
-
         </Modal.Footer>
       </Modal>
-      <Col
-        xs={12}
-        sm={12}
-        lg={8}
-        xl={8}
-        key={0}
-      >
+      <Col xs={12} sm={12} lg={8} xl={8} key={0}>
         <Card>
           <Card.Header>
             <h4 className="title">Customer Informatioin</h4>
@@ -75,10 +61,7 @@ const Checkout = () => {
               </Row>
               <Form.Group className="mb-3" controlId="formBasicCountry">
                 <Form.Label>Country</Form.Label>
-                <CountrySelect
-                  value={value}
-                  onChange={setValue}
-                />
+                <CountrySelect value={value} onChange={setValue} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicCity">
@@ -91,22 +74,18 @@ const Checkout = () => {
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCity">
                 <Form.Label>Detail Address</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Enter Detail Address" />
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter Detail Address"
+                />
               </Form.Group>
-
             </Form>
           </Card.Body>
         </Card>
       </Col>
-      <Col
-        xs={12}
-        sm={12}
-        lg={4}
-        xl={4}
-        key={0}
-      >
+      <Col xs={12} sm={12} lg={4} xl={4} key={0}>
         <Card>
-
           <Card.Header>
             <h4 className="title">Order Summary</h4>
           </Card.Header>
@@ -118,43 +97,47 @@ const Checkout = () => {
               <Col lg={6} xl={6}>
                 {JSON.parse(localStorage.getItem('CART')) && (
                   <div>
-                    <h6 className='text-end'>Rp  {JSON.parse(localStorage.getItem('CART'))
-                      .map(p => (Number(p.product.price) * 15000) * p.quantity)
-                      .reduce((a, b) => a + b, 0)
-                      .toLocaleString()}</h6>
+                    <h6 className="text-end">
+                      Rp{' '}
+                      {JSON.parse(localStorage.getItem('CART'))
+                        .map(
+                          (p) => Number(p.product.price) * 15000 * p.quantity,
+                        )
+                        .reduce((a, b) => a + b, 0)
+                        .toLocaleString()}
+                    </h6>
                   </div>
                 )}
               </Col>
               <Col lg={6} xl={6}>
-                <h6 className=''>Total Payment</h6>
+                <h6 className="">Total Payment</h6>
               </Col>
               <Col lg={6} xl={6}>
                 {JSON.parse(localStorage.getItem('CART')) && (
                   <div>
-                    <h6 className='text-end'>Rp  {JSON.parse(localStorage.getItem('CART'))
-                      .map(p => (Number(p.product.price) * 15000) * p.quantity)
-                      .reduce((a, b) => a + b, 0)
-                      .toLocaleString()}</h6>
+                    <h6 className="text-end">
+                      Rp{' '}
+                      {JSON.parse(localStorage.getItem('CART'))
+                        .map(
+                          (p) => Number(p.product.price) * 15000 * p.quantity,
+                        )
+                        .reduce((a, b) => a + b, 0)
+                        .toLocaleString()}
+                    </h6>
                   </div>
                 )}
               </Col>
             </Row>
           </Card.Body>
         </Card>
-        <div className='mt-2'>
-          <Button className='ok' variant="primary" onClick={handleShow}>Place Order</Button>
+        <div className="mt-2">
+          <Button className="ok" variant="primary" onClick={handleShow}>
+            Place Order
+          </Button>
         </div>
       </Col>
-      <Col
-        xs={12}
-        sm={12}
-        lg={8}
-        xl={8}
-        className="mt-4"
-      >
+      <Col xs={12} sm={12} lg={8} xl={8} className="mt-4">
         <Card>
-
-
           <Card.Header>
             <h4 className="title">Payment Information</h4>
           </Card.Header>
@@ -166,11 +149,13 @@ const Checkout = () => {
               </Form.Group>
 
               <Row>
-
                 <Col xl={4} lg={4}>
                   <Form.Group className="mb-3" controlId="formBasicCardNumber">
                     <Form.Label>Valid Until</Form.Label>
-                    <Form.Control type="month" placeholder="Enter Card Number" />
+                    <Form.Control
+                      type="month"
+                      placeholder="Enter Card Number"
+                    />
                   </Form.Group>
                 </Col>
                 <Col xl={4} lg={4}>
@@ -185,13 +170,5 @@ const Checkout = () => {
         </Card>
       </Col>
     </Row>
-  )
-}
-
-
-export default connect(
-  state => ({
-    checkout: state.checkoutReducer,
-  }),
-  {},
-)(Checkout);
+  );
+};
