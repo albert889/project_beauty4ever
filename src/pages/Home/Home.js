@@ -5,11 +5,14 @@ import './styles.css';
 import InfiniteScroll from "react-infinite-scroller";
 import Product from "../../components/Product";
 import {getDataMakeup} from "../../fakebackend/axiosData";
+import {child, get, ref, remove, set} from 'firebase/database';
+import {RealDatabase} from "../../firebase/config";
 
 const Home = () => {
   const [index, setIndex] = useState(0);
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
+  const [dataLike, setDataLikes] = useState([]);
 
   console.log(data)
 
@@ -17,13 +20,36 @@ const Home = () => {
     setIndex(selectedIndex);
     setDirection(e.direction);
   };
+
   const handleGetData = async () => {
       const response = await getDataMakeup();
       setData(response)
   }
 
+    const getDataLikeV2 = async () => {
+        const dbRef = ref(RealDatabase);
+        get(child(dbRef, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+            .then(async snapshot => {
+                if (snapshot.exists()) {
+                    const oldData = snapshot.val();
+                    const datas = [];
+                    Object.keys(oldData).map(key => {
+                        datas.push({
+                            id: oldData[key].id,
+                        });
+                    });
+                    setDataLikes(datas);
+                } else {
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
   useEffect(() => {
       handleGetData();
+      getDataLikeV2();
   }, [])
 
   return (
@@ -67,8 +93,12 @@ const Home = () => {
                 pageStart={0}
                 initialLoad={false}
             >
-                {data.map((product, i) =>
-                    <Product product={product} key={i} />
+                {data.map((product, i) => {
+                        const indx = dataLike.findIndex((it => it.id === product.id))
+                        const lk = indx >= 0 ? true : false;
+                        return <Product product={{...product, like: lk}} key={i}/>
+
+                    }
                 )}
             </InfiniteScroll>
         </div>

@@ -11,7 +11,6 @@ import './styles.css';
 import { config } from '../../services/config';
 
 const Liked = ({ liked: { likedProducts } }) => {
-  // console.log(likedProducts);
 
   return (
     <Fragment>

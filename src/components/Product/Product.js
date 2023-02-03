@@ -22,6 +22,7 @@ const Product = ({
   addProductToCart,
   removeProductFromCart,
   liked,
+    dataLike,
   cart,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -90,7 +91,7 @@ const Product = ({
         <i
             onClick={toggleLike}
             className={
-              isLiked()
+              product.like
                 ? 'fa fa-heart text-danger like'
                 : 'fa fa-heart text-disable like'
             }
