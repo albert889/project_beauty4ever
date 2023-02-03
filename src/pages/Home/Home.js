@@ -11,6 +11,8 @@ import {connect} from "react-redux";
 import {likeProduct, unlikeProduct} from "../../store/actions/liked";
 import {addProductToCart, removeProductFromCart} from "../../store/actions/cart";
 
+
+
 const Home = () => {
   const [index, setIndex] = useState(0);
   const [data, setData] = useState([]);
