@@ -5,7 +5,7 @@ import './styles.css';
 import InfiniteScroll from "react-infinite-scroller";
 import Product from "../../components/Product";
 import {getDataMakeup} from "../../fakebackend/axiosData";
-import {child, get, ref, remove, set} from 'firebase/database';
+import {child, get, ref} from 'firebase/database';
 import {RealDatabase} from "../../firebase/config";
 import {connect} from "react-redux";
 import {likeProduct, unlikeProduct} from "../../store/actions/liked";
@@ -16,6 +16,7 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
   const [dataLike, setDataLikes] = useState([]);
+  const [dataCart, setDataCart] = useState([]);
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
@@ -26,6 +27,30 @@ const Home = () => {
       const response = await getDataMakeup();
       setData(response)
   }
+
+    const getDataCart = async () => {
+        const dbRef = ref(RealDatabase);
+        get(child(dbRef, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+            .then(async snapshot => {
+                if (snapshot.exists()) {
+                    const oldData = snapshot.val();
+                    const datas = [];
+                    Object.keys(oldData).map(key => {
+                        datas.push({
+                            id: oldData[key].id,
+                            qty: oldData[key].qty,
+                        });
+                    });
+                    console.log('dataHasilParse: ', datas);
+                    setDataCart(datas);
+                } else {
+                    console.log('No data available');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
 
     const getDataLikeV2 = async () => {
         const dbRef = ref(RealDatabase);
@@ -51,8 +76,8 @@ const Home = () => {
     };
 
   useEffect(() => {
-      likeProduct([]);
       handleGetData();
+      getDataCart();
       getDataLikeV2();
   }, [])
 
@@ -98,11 +123,12 @@ const Home = () => {
                 initialLoad={false}
             >
                 {data.map((product, i) => {
-                        const indx = dataLike.findIndex((it => it.id === product.id))
-                        const lk = indx >= 0;
-                        return <Product forProduct={true} dataLike={dataLike} product={{...product, like: lk}} key={i}/>
-
-                    }
+                    const idLike = dataLike.findIndex((it => it.id === product.id))
+                    const idCart = dataCart.findIndex((it => it.id === product.id))
+                    const likes = idLike >= 0;
+                    const card = idCart >= 0 ? dataCart[idCart].qty : 0;
+                    return <Product dataCart={dataCart} dataLike={dataLike} product={{...product, like: likes, qty: card }} key={i}/>
+                }
                 )}
             </InfiniteScroll>
         </div>

@@ -49,8 +49,29 @@ const Header = ({
 }) => {
   const { pathname } = location;
   const [dataLike, setDataLikes] = useState([]);
+  const [dataCart, setDataCart] = useState([]);
 
-  console.log(dataLike.length,"kk")
+  const getDataCart = async () => {
+    const dbRef = ref(RealDatabase);
+    get(child(dbRef, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+        .then(async snapshot => {
+          if (snapshot.exists()) {
+            const oldData = snapshot.val();
+            const datas = [];
+            Object.keys(oldData).map(key => {
+              datas.push({
+                id: oldData[key].id,
+                qty: oldData[key].qty,
+              });
+            });
+            setDataCart(datas);
+          } else {
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  };
 
 
   useEffect(() => {
@@ -59,8 +80,8 @@ const Header = ({
   }, []);
 
   function calcCartLength() {
-    const sum = cart.cartProducts
-      .map(p => p.quantity)
+    const sum = dataCart
+      .map(p => p.qty)
       .reduce((a, b) => a + b, 0);
     return sum;
   }
@@ -88,7 +109,10 @@ const Header = ({
 
   useEffect(() => {
     getDataLikeV2();
-  }, [liked])
+    getDataCart();
+  }, [liked, cart])
+
+
   return (
     <Navbar
 
