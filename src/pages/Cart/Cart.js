@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import {
   addProductToCart,
@@ -11,8 +11,10 @@ import {
 import './styles.css';
 import cart from "./index";
 import {getDataMakeup} from "../../fakebackend/axiosData";
-import {child, get, ref, set} from "firebase/database";
+import {child, get, ref, set, push, getDatabase, update} from "firebase/database";
 import {RealDatabase} from "../../firebase/config";
+import Button from "react-bootstrap/Button";
+
 
 
 const Cart = ({
@@ -100,23 +102,21 @@ const Cart = ({
     getDataCart();
   }, [cart, qty])
 
-  const handleAddOrder = async id => {
+  const handleAddOrder = () => {
     var dataCartById = '';
     var dataCartByIdQty = '';
     dataCart.map(i => {
-      if (id === i.id) {
         dataCartById = i.id;
         dataCartByIdQty = i.qty;
-      }
     });
-    const quantity = dataCartByIdQty + 1
-    set(ref(RealDatabase, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${id}`), {
-      id: id,
-      qty: quantity,
-    });
-    setqty(quantity)
-    addProductToCart(quantity)
+    const db = getDatabase();
+    const newPostKey = push(child(ref(db), 'posts')).key;
+    const updates = {};
+    updates['order/' + "HmVao72bu7WnUbYR4ssTd34AMLp1" + '/' + newPostKey] = dataCart;
 
+    return update(ref(db), updates);
+
+    return <Link to="/home" />
 
   };
 
@@ -209,9 +209,9 @@ const Cart = ({
             </div>
             <div className="card-footer">
               <div className="pull-right" style={{ margin: 10 }}>
-                <Link to={'/checkout'} className="btn btn-primary pull-right" >
+                <Button onClick={() => handleAddOrder()} className="btn btn-primary pull-right" >
                   Checkout
-                </Link>
+                </Button>
                 <div className="pull-right" style={{ margin: 5 }}>
                   Total price:{' '}
                   <b>
