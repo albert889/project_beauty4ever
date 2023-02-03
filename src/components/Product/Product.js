@@ -23,16 +23,13 @@ const Product = ({
   unlikeProduct,
   addProductToCart,
   removeProductFromCart,
-  liked,
     dataLike,
-    forProduct,
+    dataCart,
   cart,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const counter = useRef(0);
   const [products, setProducts] = useState(product)
-  const [prod, setProd] = useState()
-  const [like, setLike] = useState(false)
 
   function imageLoaded() {
     counter.current += 1;
@@ -47,7 +44,6 @@ const Product = ({
     } else {
       removeProductFromCart(product);
     }
-    //console.log(cart.cartProducts);
   }
 
   function isAdded() {
@@ -56,26 +52,6 @@ const Product = ({
       cart.cartProducts.find(p => p.product.id === product.id);
     return isAdded;
   }
-
-  function toggleLike() {
-    if (!isLiked()) {
-      likeProduct(product);
-      setLike(true)
-    } else {
-      unlikeProduct(product);
-      setLike(false)
-    }
-  }
-
-  useEffect(() => {
-    // likeProduct([]);
-    if(forProduct) {
-      if (product.like === true) {
-        setLike(true)
-      }
-    }
-
-  },[])
 
   const handleLikeV2 = async product => {
     var dataLikeByOd = '';
@@ -93,34 +69,40 @@ const Product = ({
     } else {
       const dbRef = ref(RealDatabase, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${product.id}`);
       remove(dbRef);
-      unlikeProduct(product);
+      likeProduct(product);
       setProducts({...product, like: false})
     }
   };
 
-  function isLiked() {
-    const isLiked =
-      liked.likedProducts.length > 0 &&
-      liked.likedProducts.find(p => p.id === product.id);
-    return isLiked;
-  }
-  
+  const handleAddCart = async id => {
+    var dataCartById = '';
+    var dataCartByIdQty = '';
+    dataCart.map(i => {
+      if (id === i.id) {
+        dataCartById = i.id;
+        dataCartByIdQty = i.qty;
+      }
+    });
+    if (dataCartById === '') {
+      set(ref(RealDatabase, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${id}`), {
+        id: id,
+        qty: 1,
+      });
+      setProducts({...product, qty: 1})
+      addProductToCart(product)
+    } else {
+      const quantity = dataCartByIdQty + 1
+      set(ref(RealDatabase, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${id}`), {
+        id: id,
+        qty: quantity,
+      });
+      addProductToCart(product)
+      setProducts({...product, qty: quantity})
+    }
+  };
+
   return (
     <>
-      <Col
-        xs={12}
-        sm={6}
-        lg={4}
-        xl={3}
-        key={0}
-        className="container"
-        style={{ display: isLoading ? 'block' : 'none' }}
-      >
-        <div className="row justify-content-center align-self-center h-300">
-          <Spinner animation="border" className="align-self-center" />
-        </div>
-      </Col>
-
       <Col
         lg={3}
         className="mb-3"
@@ -149,10 +131,11 @@ const Product = ({
           <div className="d-flex align-items-center justify-content-between">
             <span className="price">Rp. {(Number(product.price) * 15000).toLocaleString()}</span>
             <Button
-                onClick={toggleAddProduct}
+                onClick={() => handleAddCart(product.id)}
                 className="button-cart mt-3"
             >
-              <i className="fa fa-shopping-cart"></i>
+              {products.qty !== 0 ? products.qty : <i className="fa fa-shopping-cart"></i>}
+
             </Button>
           </div>
 

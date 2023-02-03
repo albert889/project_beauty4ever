@@ -1,22 +1,18 @@
-import React, { useEffect, useState, useRef, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 import Product from '../../components/Product';
-import MySpinner from '../../components/MySpinner';
 import './styles.css';
-
-import { config } from '../../services/config';
 import {child, get, ref} from "firebase/database";
 import {RealDatabase} from "../../firebase/config";
 import {getDataMakeup} from "../../fakebackend/axiosData";
+import {likeProduct, unlikeProduct} from "../../store/actions/liked";
+import {addProductToCart, removeProductFromCart} from "../../store/actions/cart";
 
-const Liked = ({ liked: { likedProducts } }) => {
+const Liked = ({liked}) => {
     const [dataLike, setDataLikes] = useState([]);
     const [data, setData] = useState([]);
-    const [like, setLike] = useState([])
 
     const getDataLikeV2 = async () => {
         const dbRef = ref(RealDatabase);
@@ -46,7 +42,7 @@ const Liked = ({ liked: { likedProducts } }) => {
     useEffect(() => {
         handleGetData();
         getDataLikeV2();
-    }, [])
+    }, [liked])
 
   return (
     <Fragment>
@@ -54,26 +50,24 @@ const Liked = ({ liked: { likedProducts } }) => {
           {data.map((product, i) => {
               const indx = dataLike.findIndex((it => it.id === product.id))
                   if (indx >= 0) {
-                      return <Product forProduct={true} dataLike={dataLike} product={product} key={i}/>
+                      return <Product forProduct={true} dataLike={dataLike} product={{...product, like: true}} key={i}/>
                   }
-
-
               }
           )}
       </Row>
-
-      {likedProducts.length === 0 && (
-        <Row className="justify-content-center">
-          <h4>There are no liked products yet.</h4>
-        </Row>
-      )}
     </Fragment>
   );
 };
 
 export default connect(
-  state => ({
-    liked: state.likedReducer,
-  }),
-  {},
+    state => ({
+        liked: state.likedReducer,
+        cart: state.cartReducer,
+    }),
+    {
+        likeProduct,
+        unlikeProduct,
+        addProductToCart,
+        removeProductFromCart,
+    },
 )(Liked);
