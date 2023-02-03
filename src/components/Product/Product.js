@@ -44,14 +44,14 @@ const Product = ({
     return isAdded;
   }
 
-  const handleLikeV2 = async product => {
+  const handleLikeV2 = async (product, like) => {
     var dataLikeByOd = '';
     dataLike.map(i => {
       if (product.id === i.id) {
         dataLikeByOd = product.id;
       }
     });
-    if (dataLikeByOd === '') {
+    if (like === false) {
       set(ref(RealDatabase, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${product.id}`), {
         id: product.id,
       });
@@ -60,8 +60,9 @@ const Product = ({
     } else {
       const dbRef = ref(RealDatabase, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${product.id}`);
       remove(dbRef);
-      likeProduct(product);
       setProducts({...product, like: false})
+      likeProduct(product);
+
     }
   };
 
@@ -101,7 +102,7 @@ const Product = ({
       >
         <Card className="product-card h-300 p-3">
         <i
-            onClick={() => handleLikeV2(product)}
+            onClick={() => handleLikeV2(product, products.like)}
             className={
               products.like
                 ? 'fa fa-heart text-danger like'
