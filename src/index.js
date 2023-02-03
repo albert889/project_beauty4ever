@@ -33,6 +33,8 @@ import rootReducer from './store/reducers';
 
 import './index.css';
 import './fakebackend/axiosData';
+import Signin from './pages/Signin';
+import Register from './pages/Register/Register';
 
 const Root = () => {
   //
@@ -63,8 +65,10 @@ const Root = () => {
               component={ProductDetails}
             />
             <Route path="/cart" component={Cart} />
-            <Route path="/login" component={Login} />
+            {/* <Route path="/login" component={Login} /> */}
             <Route path="/checkout" component={Checkout} />
+            <Route path="/signin" component={Signin} /> 
+            <Route path="/signup" component={Register} /> 
             <PrivateRoute path="/profile" component={Profile} />
             <Route path="/error" component={Error} />
             <Route exact path="/">
