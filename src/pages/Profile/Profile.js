@@ -19,7 +19,7 @@ const Profile = ({ auth }) => {
       user = auth.googleUser;
     } else if (auth.localUser) {
       user = auth.localUser; //name, email
-      user.imageUrl = require(`../../static/products/mepps1.jpg`);
+      user.imageUrl = require(`../../static/products/avatar.jpg`);
     }
     return user;
   }
@@ -65,41 +65,28 @@ const Profile = ({ auth }) => {
 
                       <div className="row">
                         <div className="col-sm-3 col-md-2 col-5">
-                          <label className="item-label">Birth Date</label>
+                          <label className="item-label">Phone Number</label>
                         </div>
-                        <div className="col-md-8 col-6">March 22, 1983.</div>
+                        <div className="col-md-8 col-6">-</div>
                       </div>
                       <hr />
 
                       <div className="row">
                         <div className="col-sm-3 col-md-2 col-5">
-                          <label className="item-label">Lorem Ipsum</label>
+                          <label className="item-label">Email</label>
                         </div>
-                        <div className="col-md-8 col-6">Lorem Ipsum</div>
+                        <div className="col-md-8 col-6">-</div>
                       </div>
                       <hr />
                       <div className="row">
                         <div className="col-sm-3 col-md-2 col-5">
-                          <label className="item-label">Lorem Ipsum</label>
+                          <label className="item-label">Address</label>
                         </div>
-                        <div className="col-md-8 col-6">Lorem Ipsum</div>
+                        <div className="col-md-8 col-6">-</div>
                       </div>
                       <hr />
-                      <div className="row">
-                        <div className="col-sm-3 col-md-2 col-5">
-                          <label className="item-label">Lorem Ipsum</label>
-                        </div>
-                        <div className="col-md-8 col-6">Lorem Ipsum</div>
-                      </div>
+                     
                       <hr />
-                    </div>
-                  </Tab>
-                  <Tab eventKey="additional" title="Additional info">
-                    <div className="mt-4">
-                      Dolorem ipsa ea voluptatem. Qui voluptatem totam velit rem
-                      dolores. Esse delectus eius quidem et eveniet.Dolorem ipsa
-                      ea voluptatem. Qui voluptatem totam velit rem dolores.
-                      Esse delectus eius quidem et eveniet.
                     </div>
                   </Tab>
                 </Tabs>
