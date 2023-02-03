@@ -14,6 +14,7 @@ import {getDataMakeup} from "../../fakebackend/axiosData";
 import {child, get, ref, set, push, getDatabase, update} from "firebase/database";
 import {RealDatabase} from "../../firebase/config";
 import Button from "react-bootstrap/Button";
+import {showToast} from "../../store/actions/toast";
 
 
 const Cart = ({
@@ -116,7 +117,6 @@ const Cart = ({
 
     return update(ref(db), updates);
 
-
   };
 
 
@@ -208,9 +208,12 @@ const Cart = ({
             </div>
             <div className="card-footer">
               <div className="pull-right" style={{ margin: 10 }}>
-                <Button onClick={() => handleAddOrder()} className="btn btn-primary pull-right" >
-                  Checkout
-                </Button>
+                <Link to="/home">
+                  <Button onClick={() => handleAddOrder()} className="btn btn-primary pull-right" >
+                    Checkout
+                  </Button>
+                </Link>
+
                 <div className="pull-right" style={{ margin: 5 }}>
                   Total price:{' '}
                   <b>
