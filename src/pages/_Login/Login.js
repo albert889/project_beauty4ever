@@ -49,11 +49,15 @@ const registerSchema = Yup.object().shape({
     .min(2, 'Name must be 2 characters at minimum.')
     .max(10, 'Name must be 10 characters at maximum.')
     .required('Required'),
-    phone: Yup.string()
-    .min(2, 'Phone must be 11-13 characters at minimum.')
-    .max(13, 'Password must be 13 characters at maximum.')
+  repeatPassword: Yup.string()
+    .when('password', {
+      is: val => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref('password')],
+        'Both password must be the same',
+      ),
+    })
     .required('Required'),
-    address: Yup.string()
 });
 
 const loginSchema = Yup.object().shape({
@@ -125,8 +129,7 @@ const Login = ({
                       email: '',
                       password: '',
                       name: '',
-                      phone: '',
-                      address: '',
+                      repeatPassword: '',
                     }
                   : {
                       email: '',
@@ -197,24 +200,6 @@ const Login = ({
                           {errors.email}
                         </Form.Control.Feedback>
                       </Form.Group>
-                      <Form.Group controlId="validationFormik2">
-                        <Form.Control
-                          name="phone"
-                          type="number"
-                          placeholder="Phone Number"
-                          value={values.phone}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          isInvalid={touched.phone && !!errors.phone}
-                          isValid={touched.phone && !errors.phone}
-                        />
-                        <Form.Control.Feedback>
-                          Looks good!
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          {errors.phone}
-                        </Form.Control.Feedback>
-                      </Form.Group>
                       <Form.Group controlId="validationFormik3">
                         <Form.Control
                           name="password"
@@ -256,26 +241,7 @@ const Login = ({
                             {errors.repeatPassword}
                           </Form.Control.Feedback>
                         </Form.Group>
-                        
                       )}
-                      <Form.Group controlId="validationFormik2">
-                        <Form.Control
-                          name="address"
-                          type="text"
-                          placeholder="Address"
-                          value={values.address}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          isInvalid={touched.address && !!errors.address}
-                          isValid={touched.address && !errors.address}
-                        />
-                        <Form.Control.Feedback>
-                          Looks good!
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          {errors.address}
-                        </Form.Control.Feedback>
-                      </Form.Group>
                       <Form.Row>
                         <Form.Group
                           as={Col}
