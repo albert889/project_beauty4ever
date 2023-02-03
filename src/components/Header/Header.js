@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import { withRouter } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
@@ -27,6 +27,9 @@ import {
 import { config } from '../../services/config';
 
 import './styles.css';
+import {child, get, ref} from "firebase/database";
+import {RealDatabase} from "../../firebase/config";
+import {likeProduct} from "../../store/actions/liked";
 
 const Header = ({
   location,
@@ -45,6 +48,10 @@ const Header = ({
   logoutLocalUser,
 }) => {
   const { pathname } = location;
+  const [dataLike, setDataLikes] = useState([]);
+
+  console.log(dataLike.length,"kk")
+
 
   useEffect(() => {
     getGoogleUser();
@@ -58,20 +65,30 @@ const Header = ({
     return sum;
   }
 
-  function logoutSuccess() {
-    logOutGoogleUser();
-  }
+  const getDataLikeV2 = async () => {
+    const dbRef = ref(RealDatabase);
+    get(child(dbRef, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+        .then(async snapshot => {
+          if (snapshot.exists()) {
+            const oldData = snapshot.val();
+            const datas = [];
+            Object.keys(oldData).map(key => {
+              datas.push({
+                id: oldData[key].id,
+              });
+            });
+            setDataLikes(datas);
+          } else {
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  };
 
-  function logoutLocalUserClick() {
-    logoutLocalUser();
-  }
-
-  function getCurrentUser() {
-    let user = null;
-    user = auth.googleUser ? 'google' : auth.localUser ? 'local' : null;
-    return user;
-  }
-
+  useEffect(() => {
+    getDataLikeV2();
+  }, [liked])
   return (
     <Navbar
 
@@ -94,9 +111,9 @@ const Header = ({
             </LinkContainer>
             <LinkContainer to="/liked">
               <Nav.Link>Liked{' '}
-                {liked.likedProducts.length > 0 && (
+                {dataLike.length > 0 && (
                   <Badge pill variant="light">
-                    {liked.likedProducts.length}
+                    {dataLike.length}
                   </Badge>
                 )}
               </Nav.Link>
@@ -128,6 +145,7 @@ export default connect(
     auth: state.authReducer,
   }),
   {
+    likeProduct   ,
     setSortBy,
     setFilterBy,
     setPageToLoad,

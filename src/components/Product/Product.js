@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { connect } from 'react-redux';
 
 import Card from 'react-bootstrap/Card';
@@ -14,6 +14,8 @@ import {
   addProductToCart,
   removeProductFromCart,
 } from '../../store/actions/cart';
+import {ref, remove, set} from "firebase/database";
+import {RealDatabase} from "../../firebase/config";
 
 const Product = ({
   product,
@@ -23,10 +25,14 @@ const Product = ({
   removeProductFromCart,
   liked,
     dataLike,
+    forProduct,
   cart,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const counter = useRef(0);
+  const [products, setProducts] = useState(product)
+  const [prod, setProd] = useState()
+  const [like, setLike] = useState(false)
 
   function imageLoaded() {
     counter.current += 1;
@@ -54,10 +60,43 @@ const Product = ({
   function toggleLike() {
     if (!isLiked()) {
       likeProduct(product);
+      setLike(true)
     } else {
       unlikeProduct(product);
+      setLike(false)
     }
   }
+
+  useEffect(() => {
+    // likeProduct([]);
+    if(forProduct) {
+      if (product.like === true) {
+        setLike(true)
+      }
+    }
+
+  },[])
+
+  const handleLikeV2 = async product => {
+    var dataLikeByOd = '';
+    dataLike.map(i => {
+      if (product.id === i.id) {
+        dataLikeByOd = product.id;
+      }
+    });
+    if (dataLikeByOd === '') {
+      set(ref(RealDatabase, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${product.id}`), {
+        id: product.id,
+      });
+      setProducts({...product, like: true})
+      likeProduct(product);
+    } else {
+      const dbRef = ref(RealDatabase, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${product.id}`);
+      remove(dbRef);
+      unlikeProduct(product);
+      setProducts({...product, like: false})
+    }
+  };
 
   function isLiked() {
     const isLiked =
@@ -89,9 +128,9 @@ const Product = ({
       >
         <Card className="product-card h-300 p-3">
         <i
-            onClick={toggleLike}
+            onClick={() => handleLikeV2(product)}
             className={
-              product.like
+              products.like
                 ? 'fa fa-heart text-danger like'
                 : 'fa fa-heart text-disable like'
             }

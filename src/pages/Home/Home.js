@@ -7,14 +7,15 @@ import Product from "../../components/Product";
 import {getDataMakeup} from "../../fakebackend/axiosData";
 import {child, get, ref, remove, set} from 'firebase/database';
 import {RealDatabase} from "../../firebase/config";
+import {connect} from "react-redux";
+import {likeProduct, unlikeProduct} from "../../store/actions/liked";
+import {addProductToCart, removeProductFromCart} from "../../store/actions/cart";
 
 const Home = () => {
   const [index, setIndex] = useState(0);
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
   const [dataLike, setDataLikes] = useState([]);
-
-  console.log(data)
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
@@ -38,6 +39,8 @@ const Home = () => {
                             id: oldData[key].id,
                         });
                     });
+                    const datafilter = data.filter((it => it.id === datas))
+                    console.log(datafilter, "dat")
                     setDataLikes(datas);
                 } else {
                 }
@@ -48,6 +51,7 @@ const Home = () => {
     };
 
   useEffect(() => {
+      likeProduct([]);
       handleGetData();
       getDataLikeV2();
   }, [])
@@ -95,8 +99,8 @@ const Home = () => {
             >
                 {data.map((product, i) => {
                         const indx = dataLike.findIndex((it => it.id === product.id))
-                        const lk = indx >= 0 ? true : false;
-                        return <Product product={{...product, like: lk}} key={i}/>
+                        const lk = indx >= 0;
+                        return <Product forProduct={true} dataLike={dataLike} product={{...product, like: lk}} key={i}/>
 
                     }
                 )}
@@ -107,7 +111,17 @@ const Home = () => {
   );
 };
 
-
-export default Home;
+export default connect(
+    state => ({
+        liked: state.likedReducer,
+        cart: state.cartReducer,
+    }),
+    {
+        likeProduct,
+        unlikeProduct,
+        addProductToCart,
+        removeProductFromCart,
+    },
+)(Home);
 
 
