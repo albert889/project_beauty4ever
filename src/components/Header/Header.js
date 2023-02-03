@@ -169,7 +169,7 @@ const Header = ({
             </LinkContainer>
             
             {!getCurrentUser() ? (
-              <LinkContainer to="/login">
+              <LinkContainer to="/signin">
                 <Nav.Link>
                   <i className="fa fa-sign-in"></i> Log in
                 </Nav.Link>
