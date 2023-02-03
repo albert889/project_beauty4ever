@@ -1,20 +1,19 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import {
   addProductToCart,
   removeProductFromCart,
   removeProductsFromCart,
 } from '../../store/actions/cart';
-
+import { LinkContainer } from 'react-router-bootstrap';
 import './styles.css';
 import cart from "./index";
 import {getDataMakeup} from "../../fakebackend/axiosData";
 import {child, get, ref, set, push, getDatabase, update} from "firebase/database";
 import {RealDatabase} from "../../firebase/config";
 import Button from "react-bootstrap/Button";
-
 
 
 const Cart = ({
@@ -47,6 +46,7 @@ const Cart = ({
         id: id,
         qty: quantity,
       });
+
     setqty(quantity)
     addProductToCart(quantity)
 
@@ -116,7 +116,6 @@ const Cart = ({
 
     return update(ref(db), updates);
 
-    return <Link to="/home" />
 
   };
 

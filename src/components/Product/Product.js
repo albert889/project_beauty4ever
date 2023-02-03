@@ -37,15 +37,6 @@ const Product = ({
       setIsLoading(false);
     }
   }
-
-  function toggleAddProduct() {
-    if (!isAdded()) {
-      addProductToCart(product);
-    } else {
-      removeProductFromCart(product);
-    }
-  }
-
   function isAdded() {
     const isAdded =
       cart.cartProducts.length > 0 &&

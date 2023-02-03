@@ -74,6 +74,7 @@ const Header = ({
   };
 
 
+
   useEffect(() => {
     getGoogleUser();
     getLocalUser();
@@ -109,7 +110,8 @@ const Header = ({
 
   useEffect(() => {
     getDataLikeV2();
-  }, [liked])
+    getDataCart();
+  }, [liked, cart])
 
   function logoutSuccess() {
     logOutGoogleUser();
