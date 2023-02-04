@@ -119,23 +119,6 @@ const ProductDetails = ({
               </dl>
 
               <hr />
-              <button
-                onClick={toggleLike}
-                className={isLiked() ? 'btn btn-success' : 'btn btn-primary'}
-              >
-                {isLiked() ? 'Liked' : 'Like it'}
-              </button>
-              <button
-                onClick={toggleAddProduct}
-                className={
-                  !isAdded()
-                    ? 'btn  btn-outline-primary'
-                    : 'btn  btn-outline-danger'
-                }
-              >
-                <i className="fa fa-shopping-cart"></i>{' '}
-                {!isAdded() ? 'Add to Cart' : 'Added to Cart'}
-              </button>
             </article>
           </aside>
         </div>
