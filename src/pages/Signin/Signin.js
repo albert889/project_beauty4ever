@@ -25,7 +25,8 @@ export default class Signin extends Component {
         signInWithEmailAndPassword(Auth, email, password)
             .then(res => {
                 this.props.history.push('/home')
-
+                localStorage.setItem('uid', res.user.uid)
+                window.location.reload();
             })
             .catch(err => {
                 alert(err.message)

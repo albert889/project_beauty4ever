@@ -43,7 +43,8 @@ const Cart = ({
       }
     });
     const quantity = dataCartByIdQty + 1
-      set(ref(RealDatabase, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${id}`), {
+    const uid = localStorage.getItem('uid')
+      set(ref(RealDatabase, `cart/${uid}/list/${id}`), {
         id: id,
         qty: quantity,
       });
@@ -64,7 +65,8 @@ const Cart = ({
       }
     });
       const quantity = dataCartByIdQty - 1
-      set(ref(RealDatabase, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${id}`), {
+    const uid = localStorage.getItem('uid')
+      set(ref(RealDatabase, `cart/${uid}/list/${id}`), {
         id: id,
         qty: quantity,
       });
@@ -76,7 +78,8 @@ const Cart = ({
 
   const getDataCart = async () => {
     const dbRef = ref(RealDatabase);
-    get(child(dbRef, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+    const uid = localStorage.getItem('uid')
+    get(child(dbRef, `cart/${uid}/list`))
         .then(async snapshot => {
           if (snapshot.exists()) {
             const oldData = snapshot.val();
@@ -113,7 +116,8 @@ const Cart = ({
     const db = getDatabase();
     const newPostKey = push(child(ref(db), 'posts')).key;
     const updates = {};
-    updates['order/' + "HmVao72bu7WnUbYR4ssTd34AMLp1" + '/' + newPostKey] = dataCart;
+    const uid = localStorage.getItem('uid')
+    updates['order/' +  + uid + newPostKey] = dataCart;
 
     return update(ref(db), updates);
 

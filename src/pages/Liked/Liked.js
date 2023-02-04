@@ -16,7 +16,8 @@ const Liked = ({liked}) => {
 
     const getDataLikeV2 = async () => {
         const dbRef = ref(RealDatabase);
-        get(child(dbRef, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+        const uid = localStorage.getItem('uid')
+        get(child(dbRef, `liked/${uid}/list`))
             .then(async snapshot => {
                 if (snapshot.exists()) {
                     const oldData = snapshot.val();

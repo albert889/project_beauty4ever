@@ -10,6 +10,7 @@ import {RealDatabase} from "../../firebase/config";
 import {connect} from "react-redux";
 import {likeProduct, unlikeProduct} from "../../store/actions/liked";
 import {addProductToCart, removeProductFromCart} from "../../store/actions/cart";
+import {loginLocalUser} from "../../store/actions/auth";
 
 
 
@@ -32,7 +33,8 @@ const Home = () => {
 
     const getDataCart = async () => {
         const dbRef = ref(RealDatabase);
-        get(child(dbRef, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+        const uid = localStorage.getItem('uid')
+        get(child(dbRef, `cart/${uid}/list`))
             .then(async snapshot => {
                 if (snapshot.exists()) {
                     const oldData = snapshot.val();
@@ -56,7 +58,8 @@ const Home = () => {
 
     const getDataLikeV2 = async () => {
         const dbRef = ref(RealDatabase);
-        get(child(dbRef, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list`))
+        const uid = localStorage.getItem('uid')
+        get(child(dbRef, `liked/${uid}/list`))
             .then(async snapshot => {
                 if (snapshot.exists()) {
                     const oldData = snapshot.val();
@@ -143,11 +146,13 @@ export default connect(
     state => ({
         liked: state.likedReducer,
         cart: state.cartReducer,
+        user: state.lo
     }),
     {
         likeProduct,
         unlikeProduct,
         addProductToCart,
+        loginLocalUser,
         removeProductFromCart,
     },
 )(Home);

@@ -14,7 +14,7 @@ import {
   addProductToCart,
   removeProductFromCart,
 } from '../../store/actions/cart';
-import {ref, remove, set} from "firebase/database";
+import {child, get, ref, remove, set} from "firebase/database";
 import {RealDatabase} from "../../firebase/config";
 
 const Product = ({
@@ -52,13 +52,15 @@ const Product = ({
       }
     });
     if (like === false) {
-      set(ref(RealDatabase, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${product.id}`), {
+      const uid = localStorage.getItem('uid')
+      set(ref(RealDatabase, `liked/${uid}/list/${product.id}`), {
         id: product.id,
       });
       setProducts({...product, like: true})
       likeProduct(product);
     } else {
-      const dbRef = ref(RealDatabase, `liked/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${product.id}`);
+      const uid = localStorage.getItem('uid')
+      const dbRef = ref(RealDatabase, `liked/${uid}/list/${product.id}`);
       remove(dbRef);
       setProducts({...product, like: false})
       likeProduct(product);
@@ -76,15 +78,17 @@ const Product = ({
       }
     });
     if (dataCartById === '') {
-      set(ref(RealDatabase, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${id}`), {
+      const uid = localStorage.getItem('uid')
+      set(ref(RealDatabase, `cart/${uid}/list/${id}`), {
         id: id,
         qty: 1,
       });
       setProducts({...product, qty: 1})
       addProductToCart(product)
     } else {
+      const uid = localStorage.getItem('uid')
       const quantity = dataCartByIdQty + 1
-      set(ref(RealDatabase, `cart/HmVao72bu7WnUbYR4ssTd34AMLp1/list/${id}`), {
+      set(ref(RealDatabase, `cart/${uid}/list/${id}`), {
         id: id,
         qty: quantity,
       });
