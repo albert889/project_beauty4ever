@@ -9,10 +9,11 @@ const SignUp = () => {
 
   const signUp = (e) => {
     e.preventDefault();
-    Auth
-      .createUserWithEmailAndPassword(email, password)
+    Auth.createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
         history.push('/');
+          localStorage.setItem('uid', authUser.user.uid)
+          window.location.reload();
       })
       .catch((error) => alert(error.message));
   };
